@@ -1,1 +1,20 @@
+const videos = [
+  {
+    title: "Schwab Morning Trade",
+    url: "https://www.youtube.com/embed/iJxyN-3nl20",
+    notes: "Focus on opening volatility + SPY trend"
+  }
+];
 
+const container = document.getElementById("videoContainer");
+
+if (container) {
+  container.innerHTML = `
+    <iframe width="100%" height="250"
+      src="${videos[0].url}"
+      allowfullscreen>
+    </iframe>
+  `;
+
+  document.getElementById("videoNotes").innerText = videos[0].notes;
+}
