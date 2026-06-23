@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>RO'Lyfe Trading Desk v2</title>
+  <link rel="stylesheet" href="../../styles.css">
+</head>
+
+<body>
+
+<h1>📊 RO'Lyfe Trading Desk</h1>
+
+<!-- MARKET STATUS -->
+<div class="panel">
+  <h2>⏱ Market Session</h2>
+  <p id="session"></p>
+</div>
+
+<!-- LIVE PRICE PANEL -->
+<div class="panel">
+  <h2>📈 Market Watch</h2>
+
+  <select id="tickerSelect">
+    <option>SPY</option>
+    <option>QQQ</option>
+    <option>NVDA</option>
+    <option>AAPL</option>
+    <option>TSLA</option>
+  </select>
+
+  <p>Price: <span id="price">--</span></p>
+  <p>Trend: <span id="trend">--</span></p>
+</div>
+
+<!-- CHART -->
+<div class="panel">
+  <h2>📊 Chart Engine</h2>
+  <canvas id="chart"></canvas>
+</div>
+
+<!-- OPTIONS LADDER -->
+<div class="panel">
+  <h2>⚙️ Options Ladder</h2>
+
+  <select id="strategy">
+    <option>Call Buy</option>
+    <option>Put Buy</option>
+    <option>Call Spread</option>
+    <option>Put Spread</option>
+    <option>Straddle</option>
+  </select>
+
+  <input id="contracts" type="number" placeholder="Contracts" />
+
+  <button onclick="runTrade()">Execute Simulation</button>
+
+  <p id="tradeResult"></p>
+</div>
+
+<!-- RISK PANEL -->
+<div class="panel">
+  <h2>🧠 Risk Engine</h2>
+  <p id="risk"></p>
+</div>
+
+<!-- JOURNAL -->
+<div class="panel">
+  <h2>📒 Trade Journal</h2>
+
+  <button onclick="saveTrade()">Save Trade</button>
+
+  <div id="journal"></div>
+</div>
+
+<script src="mock-data.js"></script>
+<script src="engine.js"></script>
+<script src="market.js"></script>
+<script src="options-ladder.js"></script>
+<script src="risk-engine.js"></script>
+<script src="journal.js"></script>
+<script src="chart.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+</body>
+</html>
