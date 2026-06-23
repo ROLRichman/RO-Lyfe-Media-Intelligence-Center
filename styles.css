@@ -1,1 +1,32 @@
+body {
+  font-family: Arial;
+  background: #0b0f1a;
+  color: white;
+  margin: 0;
+  padding: 20px;
+}
 
+h1 {
+  color: #00ffcc;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 15px;
+}
+
+.card {
+  background: #141c2f;
+  padding: 15px;
+  border-radius: 10px;
+  color: white;
+  text-decoration: none;
+}
+
+.panel {
+  background: #141c2f;
+  margin: 15px 0;
+  padding: 15px;
+  border-radius: 10px;
+}
