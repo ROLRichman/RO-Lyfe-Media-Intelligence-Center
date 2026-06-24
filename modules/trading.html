@@ -1,97 +1,197 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+
 <head>
-  <title>RO'Lyfe Trading Desk</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RO'Lyfe Trading Desk</title>
 
-  <link rel="stylesheet" href="../styles.css">
+<link rel="stylesheet" href="../styles.css">
 
-  <style>
-    body {
-      background: #0b0f1a;
-      color: white;
-      font-family: Arial;
-    }
+<style>
 
-    .panel {
-      background: #141c2f;
-      margin: 12px;
-      padding: 15px;
-      border-radius: 12px;
-    }
+body{
+    margin:0;
+    padding:15px;
+    background:#0b0f1a;
+    color:white;
+    font-family:Arial,sans-serif;
+}
 
-    select, input, button {
-      padding: 10px;
-      margin-top: 8px;
-      width: 100%;
-      border-radius: 8px;
-      border: none;
-    }
+.header{
+    text-align:center;
+    margin-bottom:15px;
+}
 
-    button {
-      background: #00ffcc;
-      font-weight: bold;
-    }
-  </style>
+.grid{
+    display:grid;
+    grid-template-columns:1fr;
+    gap:15px;
+}
+
+.panel{
+    background:#141c2f;
+    padding:15px;
+    border-radius:12px;
+}
+
+.panel h2{
+    margin-top:0;
+}
+
+select,
+input,
+button{
+    width:100%;
+    padding:12px;
+    margin-top:8px;
+    border-radius:8px;
+    border:none;
+    box-sizing:border-box;
+}
+
+button{
+    cursor:pointer;
+    font-weight:bold;
+}
+
+.score-good{
+    color:#00ff99;
+}
+
+.score-medium{
+    color:#ffcc00;
+}
+
+.score-bad{
+    color:#ff4444;
+}
+
+canvas{
+    width:100% !important;
+    max-height:300px;
+}
+
+@media(min-width:900px){
+
+.grid{
+    grid-template-columns:
+    repeat(2,1fr);
+}
+
+}
+
+</style>
+
 </head>
 
 <body>
 
+<div class="header">
 <h1>📊 RO'Lyfe Trading Desk</h1>
+</div>
+
+<div class="grid">
 
 <div class="panel">
-  <h2>⏱ Market Session</h2>
-  <p id="session"></p>
+<h2>⏱ Market Session</h2>
+<p id="session">Loading...</p>
 </div>
 
 <div class="panel">
-  <h2>📈 Market Watch</h2>
+<h2>📈 Market Watch</h2>
 
-  <select id="tickerSelect">
-    <option>SPY</option>
-    <option>QQQ</option>
-    <option>NVDA</option>
-    <option>AAPL</option>
-    <option>TSLA</option>
-  </select>
+<select id="tickerSelect">
 
-  <p>Price: <span id="price">--</span></p>
-  <p>Trend: <span id="trend">--</span></p>
+<option>SPY</option>
+<option>QQQ</option>
+<option>AAPL</option>
+<option>NVDA</option>
+<option>TSLA</option>
+
+</select>
+
+<p>
+Price:
+<span id="price">--</span>
+</p>
+
+<p>
+Trend:
+<span id="trend">--</span>
+</p>
+
 </div>
 
 <div class="panel">
-  <h2>📊 Chart</h2>
-  <canvas id="chart"></canvas>
+<h2>📊 Chart Engine</h2>
+<canvas id="chart"></canvas>
 </div>
 
 <div class="panel">
-  <h2>⚙️ Options Ladder</h2>
+<h2>⚙️ Options Ladder</h2>
 
-  <select id="strategy">
-    <option>Call Buy</option>
-    <option>Put Buy</option>
-    <option>Call Spread</option>
-    <option>Put Spread</option>
-    <option>Straddle</option>
-  </select>
+<select id="strategy">
 
-  <input id="contracts" type="number" placeholder="Contracts" />
+<option>Call Buy</option>
+<option>Put Buy</option>
+<option>Call Spread</option>
+<option>Put Spread</option>
+<option>Straddle</option>
 
-  <button onclick="runTrade()">Execute Simulation</button>
+</select>
 
-  <p id="tradeResult"></p>
+<input
+id="contracts"
+type="number"
+placeholder="Contracts">
+
+<button onclick="runTrade()">
+Execute Simulation
+</button>
+
+<p id="tradeResult"></p>
+
 </div>
 
 <div class="panel">
-  <h2>🧠 Risk Engine</h2>
-  <p id="risk"></p>
+<h2>🧠 Risk Engine</h2>
+
+<p id="risk">
+Waiting...
+</p>
+
 </div>
 
 <div class="panel">
-  <h2>📒 Journal</h2>
-  <button onclick="saveTrade()">Save Trade</button>
-  <div id="journal"></div>
+<h2>🏆 RO'Lyfe Trade Score</h2>
+
+<p id="tradeScore">
+0 / 50
+</p>
+
+<p id="approval">
+Waiting...
+</p>
+
+<button onclick="generateScore()">
+Generate Score
+</button>
+
+</div>
+
+<div class="panel">
+<h2>📒 Trade Journal</h2>
+
+<button onclick="saveTrade()">
+Save Trade
+</button>
+
+<div id="journal"></div>
+
+</div>
+
 </div>
 
 <script src="mock-data.js"></script>
@@ -103,6 +203,52 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script src="charts.js"></script>
+
+<script>
+
+function generateScore(){
+
+let trend=Math.floor(Math.random()*10)+1;
+let volume=Math.floor(Math.random()*10)+1;
+let timing=Math.floor(Math.random()*10)+1;
+let risk=Math.floor(Math.random()*10)+1;
+let news=Math.floor(Math.random()*10)+1;
+
+let total=
+trend+
+volume+
+timing+
+risk+
+news;
+
+document.getElementById("tradeScore")
+.innerText=
+`${total} / 50`;
+
+let approval="";
+
+if(total>=40){
+
+approval="APPROVED ✅";
+
+}
+else if(total>=30){
+
+approval="WATCHLIST ⚠️";
+
+}
+else{
+
+approval="REJECTED ❌";
+
+}
+
+document.getElementById("approval")
+.innerText=approval;
+
+}
+
+</script>
 
 </body>
 </html>
